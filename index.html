@@ -1,4 +1,15 @@
-<h1>360 Image Uploader</h1>
-<form>
-  <input type="file" />
-</form>
+<html>
+<head>
+  <title>360 Image Uploader</title>
+</head>
+<body>
+  <h1>360 Image Uploader</h1>
+  <form method="POST"
+    action="https://3xgs5wednk.execute-api.eu-west-2.amazonaws.com/test/"
+    enctype="multipart/form-data">
+
+    <input type="file" name="your-files" multiple/>
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
