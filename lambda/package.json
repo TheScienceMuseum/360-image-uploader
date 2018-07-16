@@ -1,0 +1,28 @@
+{
+  "name": "360-image-uploader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheScienceMuseum/360-image-uploader.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheScienceMuseum/360-image-uploader/issues"
+  },
+  "homepage": "https://github.com/TheScienceMuseum/360-image-uploader#readme",
+  "dependencies": {
+    "adm-zip": "^0.4.11",
+    "aws-sdk": "^2.275.1",
+    "date-time": "^2.1.0",
+    "md5": "^2.2.1",
+    "mime-types": "^2.1.18",
+    "uuid": "^3.3.2",
+    "xml2js": "^0.4.19"
+  }
+}
