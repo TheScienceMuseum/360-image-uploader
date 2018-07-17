@@ -1,0 +1,36 @@
+<html>
+<head>
+  <title>360 Image Objects</title>
+</head>
+<body>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>ID</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+    {{#each Items}}
+      <tr>
+        <td>{{objectName.S}}</td>
+        <td>{{objectId.S}}</td>
+        <td>
+          {{#if active.BOOL}}
+          Active
+          {{else}}
+          Inactive
+          {{/if}}
+        </td>
+        <td>
+          <form method="POST" action="/test/toggle-status/{{id.S}}" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="active" value="{{#if active.BOOL}}false{{else}}true{{/if}}"/>
+            <button type="submit">
+              Make {{#if active.BOOL}}Inactive{{else}}Active{{/if}}
+            </button>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+</table>
+</body>
+</html>
