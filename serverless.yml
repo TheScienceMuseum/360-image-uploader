@@ -40,7 +40,7 @@ functions:
     handler: lambda/processFile/index.handler
     events:
       - s3:
-          bucket: t-images-360
+          bucket: smgco-360
           event: s3:ObjectCreated:*
           rules:
             - suffix: .ggpkg
