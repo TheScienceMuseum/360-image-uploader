@@ -1,15 +1,15 @@
-const AWS = require("aws-sdk");
-const dynamoDB = new AWS.DynamoDB({region: 'eu-west-2'});
+const AWS = require('aws-sdk');
+const dynamoDB = new AWS.DynamoDB({region: 'eu-west-1'});
 const handlebars = require('handlebars');
 const fs = require('fs');
 
 module.exports = (event, context, callback) => {
   const format = event.queryStringParameters && event.queryStringParameters.format;
-  const template = format === "json" ? "json-template.hbs" : "html-template.hbs";
+  const template = format === 'json' ? 'json-template.hbs' : 'html-template.hbs';
 
   dynamoDB.scan({
-    TableName: process.env.TABLE_NAME,
-  }, function(err, data) {
+    TableName: process.env.TABLE_NAME
+  }, function (err, data) {
     if (err) return callback(err);
 
     const body = handlebars.compile(fs.readFileSync(__dirname + '/../templates/' + template, 'utf8'))(data);
@@ -24,4 +24,4 @@ module.exports = (event, context, callback) => {
 
     return callback(null, response);
   });
-}
+};
