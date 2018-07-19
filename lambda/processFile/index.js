@@ -2,7 +2,7 @@
 
 var utils = require('./utils.js');
 
-exports.handler = (event, context) => {
+module.exports.handler = (event, context) => {
     var bucket = event.Records[0].s3.bucket.name;
     var object = event.Records[0].s3.object.key;
 

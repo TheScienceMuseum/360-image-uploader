@@ -1,0 +1,9 @@
+[
+  {{#each Items}}
+    {
+      "title": "{{title.S}}",
+      "url": "s3-bucket/{{objectId.S}}",
+      "active": {{active.BOOL}}
+    }
+  {{/each}}
+]

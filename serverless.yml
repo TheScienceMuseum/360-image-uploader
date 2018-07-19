@@ -1,0 +1,74 @@
+service: image-360-uploader-2
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:Scan
+        - lambda:InvokeFunction
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+        - s3:GetObject
+        - s3:PutObject
+        - s3:PutObjectAcl
+        - s3:PutObjectTagging
+        - s3:PutObjectVersionAcl
+        - s3:PutObjectVersionTagging
+        - s3:Post
+        - s3:DeleteObject
+      Resource:
+        - "*"
+  environment:
+    TABLE_NAME: { "Ref": "360ImagesDynamoDBTable" }
+
+functions:
+  listObjects:
+    handler: lambda/listObjects/index.handler
+    events:
+      - http:
+          path: list-objects
+          method: get
+          cors: true
+
+  processFile:
+    handler: lambda/processFile/index.handler
+    events:
+      - s3:
+          bucket: t-images-360
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .zip
+
+  toggleStatus:
+    handler: lambda/toggleStatus/index.handler
+    events:
+      - http:
+          path: toggle-status
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    360ImagesDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+plugins:
+  - serverless-offline

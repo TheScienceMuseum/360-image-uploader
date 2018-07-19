@@ -163,7 +163,7 @@ function validateObject(files, callback) {
     const data = result.vrobject.userdata;
 
     if (data && data[0]['$'].title && data[0]['$'].info) {
-      return saveToDB({title: data[0]['$'].title, ObjectId: data[0]['$'].info}, callback);
+      return saveToDB({title: data[0]['$'].title, objectId: data[0]['$'].info}, callback);
     } else {
       return callback("Missing title or id in object.xml");
     }
@@ -173,13 +173,13 @@ function validateObject(files, callback) {
 function saveToDB(item, callback) {
   const id = uuid();
   return dynamoDB.putItem({
-    TableName: "360Images",
+    TableName: process.env.TABLE_NAME,
     Item: {
       "id": {
         S: id
       },
-      "ObjectId": {
-        S: item.ObjectId
+      "objectId": {
+        S: item.objectId
       },
       "title": {
         S: item.title

@@ -2,7 +2,7 @@ var multipart = require('parse-multipart');
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 
-exports.handler = function(event, context, callback) {
+module.exports.handler = function(event, context, callback) {
   var bodyBuffer = new Buffer(event['body-json'].toString(), 'base64');
   var boundary = multipart.getBoundary(event.params.header['content-type']);
 
