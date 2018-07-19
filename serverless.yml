@@ -43,7 +43,7 @@ functions:
           bucket: t-images-360
           event: s3:ObjectCreated:*
           rules:
-            - suffix: .zip
+            - suffix: .ggpkg
 
   toggleStatus:
     handler: lambda/toggleStatus/index.handler
@@ -52,6 +52,17 @@ functions:
           path: toggle-status
           method: post
           cors: true
+
+  uploadForm:
+    handler: lambda/uploadForm/index.handler
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+
+  uploadFile:
+    handler: lambda/uploadFile/index.handler
 
 resources:
   Resources:
