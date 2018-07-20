@@ -24,7 +24,7 @@ provider:
         - s3:PutObjectVersionTagging
         - s3:DeleteObject
       Resource:
-        - "arn:aws:s3:::${opt:bucket}/*"
+        - "arn:aws:s3:::${opt:bucket, 'smgco-360'}/*"
   environment:
     TABLE_NAME: { "Ref": "360ImagesDynamoDBTable" }
     S3_BUCKET: ${opt:bucket, 'smgco-360'}

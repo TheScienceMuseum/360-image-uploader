@@ -6,6 +6,6 @@
       "path": "{{../bucket}}/{{id.S}}",
       "active": {{active.BOOL}},
       "modification_date": "{{modification_date.S}}"
-    }
+    }{{#if @last}}{{else}},{{/if}}
   {{/each}}
 ]
