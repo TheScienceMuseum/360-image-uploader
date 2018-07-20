@@ -1,4 +1,4 @@
-service: image-360-uploader-2
+service: smgco-360-uploader
 
 provider:
   name: aws
@@ -26,10 +26,13 @@ provider:
         - "*"
   environment:
     TABLE_NAME: { "Ref": "360ImagesDynamoDBTable" }
+  stackTags:
+    System: CollectionsOnline
 
 functions:
   listObjects:
     handler: lambda/listObjects/index.handler
+    timeout: 90
     events:
       - http:
           path: list-objects
@@ -38,6 +41,7 @@ functions:
 
   processFile:
     handler: lambda/processFile/index.handler
+    timeout: 90
     events:
       - s3:
           bucket: smgco-360
@@ -47,6 +51,7 @@ functions:
 
   toggleStatus:
     handler: lambda/toggleStatus/index.handler
+    timeout: 90
     events:
       - http:
           path: toggle-status
@@ -55,6 +60,7 @@ functions:
 
   uploadForm:
     handler: lambda/uploadForm/index.handler
+    timeout: 90
     events:
       - http:
           path: /
@@ -63,6 +69,7 @@ functions:
 
   uploadFile:
     handler: lambda/uploadFile/index.handler
+    timeout: 90
 
 resources:
   Resources:
