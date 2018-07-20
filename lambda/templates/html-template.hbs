@@ -22,8 +22,9 @@
           {{/if}}
         </td>
         <td>
-          <form method="POST" action="/test/toggle-status/{{id.S}}" enctype="application/x-www-form-urlencoded">
+          <form method="POST" action="/{{../stage}}/toggle-status" enctype="application/x-www-form-urlencoded">
             <input type="hidden" name="active" value="{{#if active.BOOL}}false{{else}}true{{/if}}"/>
+            <input type="hidden" name="id" value="{{id.S}}"/>
             <button type="submit">
               Make {{#if active.BOOL}}Inactive{{else}}Active{{/if}}
             </button>

@@ -11,7 +11,10 @@ module.exports = (event, context, callback) => {
     TableName: process.env.TABLE_NAME
   }, function (err, data) {
     if (err) return callback(err);
-    var templateData = Object.assign({}, data, {bucket: process.env.S3_BUCKET});
+    var templateData = Object.assign({}, data, {
+      bucket: process.env.S3_BUCKET,
+      stage: process.env.STAGE
+    });
 
     const body = handlebars.compile(
       fs.readFileSync(__dirname + '/../templates/' + template, 'utf8')

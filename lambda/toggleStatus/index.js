@@ -1,7 +1,6 @@
 const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB({region: process.env.REGION});
 const querystring = require('querystring');
-const lambda = new AWS.Lambda({region: process.env.REGION});
 const listObjects = require('../lib/listObjects');
 
 module.exports.handler = function (event, context, callback) {

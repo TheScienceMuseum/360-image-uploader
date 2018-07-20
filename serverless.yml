@@ -2,6 +2,8 @@ service: smgco-360-uploader
 
 provider:
   name: aws
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-west-1'}
   runtime: nodejs8.10
   iamRoleStatements:
     - Effect: Allow
@@ -10,24 +12,24 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:Scan
-        - lambda:InvokeFunction
-        - logs:CreateLogGroup
-        - logs:CreateLogStream
-        - logs:PutLogEvents
+      Resource:
+        - { "Fn::GetAtt": ["360ImagesDynamoDBTable", "Arn" ] }
+    - Effect: Allow
+      Action:
         - s3:GetObject
         - s3:PutObject
         - s3:PutObjectAcl
         - s3:PutObjectTagging
         - s3:PutObjectVersionAcl
         - s3:PutObjectVersionTagging
-        - s3:Post
         - s3:DeleteObject
       Resource:
-        - "*"
+        - "arn:aws:s3:::${opt:bucket}/*"
   environment:
     TABLE_NAME: { "Ref": "360ImagesDynamoDBTable" }
-    S3_BUCKET: ${opt:bucket}
-    REGION: ${opt:region}
+    S3_BUCKET: ${opt:bucket, 'smgco-360'}
+    REGION: ${self:provider.region}
+    STAGE: ${self:provider.stage}
   stackTags:
     System: CollectionsOnline
 
@@ -46,7 +48,7 @@ functions:
     timeout: 90
     events:
       - s3:
-          bucket: ${opt:bucket}
+          bucket: ${opt:bucket, 'smgco-360'}
           event: s3:ObjectCreated:*
           rules:
             - suffix: .ggpkg
