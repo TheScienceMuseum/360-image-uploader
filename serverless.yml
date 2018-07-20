@@ -26,6 +26,8 @@ provider:
         - "*"
   environment:
     TABLE_NAME: { "Ref": "360ImagesDynamoDBTable" }
+    S3_BUCKET: ${opt:bucket}
+    REGION: ${opt:region}
   stackTags:
     System: CollectionsOnline
 
@@ -44,7 +46,7 @@ functions:
     timeout: 90
     events:
       - s3:
-          bucket: smgco-360
+          bucket: ${opt:bucket}
           event: s3:ObjectCreated:*
           rules:
             - suffix: .ggpkg
