@@ -2,8 +2,10 @@
   {{#each Items}}
     {
       "title": "{{title.S}}",
-      "url": "s3-bucket/{{objectId.S}}",
-      "active": {{active.BOOL}}
+      "id": "{{objectId.S}}",
+      "path": "{{../bucket}}/{{id.S}}",
+      "active": {{active.BOOL}},
+      "modification_date": "{{modification_date.S}}"
     }
   {{/each}}
 ]

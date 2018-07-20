@@ -23,7 +23,7 @@ SOFTWARE.
 
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
-const dynamoDB = new AWS.DynamoDB({region: 'eu-west-1'});
+const dynamoDB = new AWS.DynamoDB({region: process.env.REGION});
 const AdmZip = require('adm-zip');
 const fs = require('fs');
 const dateTime = require('date-time');
@@ -170,7 +170,6 @@ function validateObject (files, callback) {
 
 function saveToDB (item, callback) {
   const id = uuid();
-  console.log(process.env.TABLE_NAME);
   return dynamoDB.putItem({
     TableName: process.env.TABLE_NAME,
     Item: {
@@ -185,6 +184,9 @@ function saveToDB (item, callback) {
       },
       'active': {
         BOOL: true
+      },
+      'modification_date': {
+        S: (new Date(Date.now())).toISOString()
       }
     }
   }, function (err, data) {

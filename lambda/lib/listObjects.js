@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const dynamoDB = new AWS.DynamoDB({region: 'eu-west-1'});
+const dynamoDB = new AWS.DynamoDB({region: process.env.REGION});
 const handlebars = require('handlebars');
 const fs = require('fs');
 
@@ -11,8 +11,11 @@ module.exports = (event, context, callback) => {
     TableName: process.env.TABLE_NAME
   }, function (err, data) {
     if (err) return callback(err);
+    var templateData = Object.assign({}, data, {bucket: process.env.S3_BUCKET});
 
-    const body = handlebars.compile(fs.readFileSync(__dirname + '/../templates/' + template, 'utf8'))(data);
+    const body = handlebars.compile(
+      fs.readFileSync(__dirname + '/../templates/' + template, 'utf8')
+    )(templateData);
 
     const response = {
       statusCode: 200,

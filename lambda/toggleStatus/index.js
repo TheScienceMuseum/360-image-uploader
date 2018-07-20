@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
-const dynamoDB = new AWS.DynamoDB({region: 'eu-west-1'});
+const dynamoDB = new AWS.DynamoDB({region: process.env.REGION});
 const querystring = require('querystring');
-const lambda = new AWS.Lambda({region: 'eu-west-1'});
+const lambda = new AWS.Lambda({region: process.env.REGION});
 const listObjects = require('../lib/listObjects');
 
 module.exports.handler = function (event, context, callback) {
@@ -9,10 +9,13 @@ module.exports.handler = function (event, context, callback) {
 
   return dynamoDB.updateItem({
     TableName: process.env.TABLE_NAME,
-    UpdateExpression: 'SET active = :a',
+    UpdateExpression: 'SET active = :a, modification_date = :m',
     ExpressionAttributeValues: {
       ':a': {
         BOOL: params.active === 'true'
+      },
+      ':m': {
+        S: (new Date(Date.now())).toISOString()
       }
     },
     Key: {
