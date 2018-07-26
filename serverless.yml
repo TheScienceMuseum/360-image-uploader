@@ -5,6 +5,17 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'eu-west-1'}
   runtime: nodejs8.10
+  # resourcePolicy:
+  #   - Effect: Allow
+  #     Principal: "*"
+  #     Action: execute-api:Invoke
+  #     Resource:
+  #       - execute-api:/*/*/*
+  #     Condition:
+  #       IpAddress:
+  #         aws:SourceIp:
+  #           - ""
+  # Jamie to add SMG IP here to restrict access to only that network
   iamRoleStatements:
     - Effect: Allow
       Action:
