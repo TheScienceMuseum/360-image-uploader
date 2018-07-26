@@ -2,18 +2,29 @@
 <head>
   <title>360 Image Uploader</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+    .container {
+      width: 100%;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <h1>360 Image Uploader</h1>
-  <form method="POST"
-    action="{{url}}"
-    enctype="multipart/form-data">
+  <div class="container">
+    <h2>360 Image Uploader</h2>
+    <form method="POST"
+      action="{{url}}"
+      enctype="multipart/form-data">
 
-    {{#each fields}}
-      <input type="hidden" name="{{@key}}" value="{{this}}" />
-    {{/each}}
-    <input type="file" name="file"/>
-    <button type="submit">Submit</button>
-  </form>
+      {{#each fields}}
+        <input type="hidden" name="{{@key}}" value="{{this}}" />
+      {{/each}}
+      <input type="file" name="file"/>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 </body>
 </html>

@@ -6,6 +6,7 @@ const fs = require('fs');
 module.exports = (event, context, callback) => {
   const format = event.queryStringParameters && event.queryStringParameters.format;
   const template = format === 'json' ? 'json-template.hbs' : 'html-template.hbs';
+  const uploaded = event.queryStringParameters && event.queryStringParameters.uploaded;
 
   dynamoDB.scan({
     TableName: process.env.TABLE_NAME
@@ -13,7 +14,8 @@ module.exports = (event, context, callback) => {
     if (err) return callback(err);
     var templateData = Object.assign({}, data, {
       bucket: process.env.S3_BUCKET,
-      stage: process.env.STAGE
+      stage: process.env.STAGE,
+      uploaded: uploaded
     });
 
     const body = handlebars.compile(
