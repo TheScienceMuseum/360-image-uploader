@@ -82,10 +82,6 @@ functions:
           method: get
           cors: true
 
-  uploadFile:
-    handler: lambda/uploadFile/index.handler
-    timeout: 90
-
 resources:
   Resources:
     360ImagesDynamoDBTable:

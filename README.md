@@ -29,3 +29,11 @@ sls remove --bucket {bucket-name} --region {aws-region} --stage {stage-name}
 If you have anything in the {bucket-name} s3 bucket, the removal may fail, and you may have to delete the remaining resources manually.
 
 To do this, go to s3, empty the bucket and delete it. Then go to CloudFormation and delete the CloudFormation stack. It will be called `smgco-360-uploader-{stage-name}`
+
+## Accessible Endpoints
+
+`/` - Returns an html form to be used to upload .ggpkg files to s3.
+
+`/list-objects` - Returns an html table of all the 360 files in s3.
+
+`/list-objects?format=json` - Returns a json list of all the 360 files in s3.
