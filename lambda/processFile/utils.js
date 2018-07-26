@@ -158,37 +158,37 @@ function validateObject (files, callback) {
     if (err) {
       return callback('Xml could not be parsed');
     }
-    const data = result.vrobject.userdata;
+    const data = result.vrobject.userdata || [{'$': {}}];
 
-    if (data && data[0]['$'].title && data[0]['$'].info) {
-      return saveToDB({title: data[0]['$'].title, objectId: data[0]['$'].info}, callback);
-    } else {
-      return callback('Missing title or id in object.xml');
-    }
+    return saveToDB({title: data[0]['$'].title, objectId: data[0]['$'].info}, callback);
   });
 }
 
 function saveToDB (item, callback) {
   const id = uuid();
+  let params = {
+    'id': {
+      S: id
+    },
+    'active': {
+      BOOL: (item.objectId && item.title) ? true : false
+    },
+    'modification_date': {
+      S: (new Date(Date.now())).toISOString()
+    }
+  };
+
+  if (item.objectId) {
+    params.objectId = {S: item.objectId}
+  }
+
+  if (item.title) {
+    params.title = {S: item.title}
+  }
+
   return dynamoDB.putItem({
     TableName: process.env.TABLE_NAME,
-    Item: {
-      'id': {
-        S: id
-      },
-      'objectId': {
-        S: item.objectId
-      },
-      'title': {
-        S: item.title
-      },
-      'active': {
-        BOOL: true
-      },
-      'modification_date': {
-        S: (new Date(Date.now())).toISOString()
-      }
-    }
+    Item: params
   }, function (err, data) {
     if (err) return callback(err);
     return callback(null, Object.assign({}, item, {id: id}));

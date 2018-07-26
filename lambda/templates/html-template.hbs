@@ -1,6 +1,11 @@
 <html>
 <head>
   <title>360 Image Objects</title>
+  <style>
+    .red {
+      color: red;
+    }
+  </style>
 </head>
 <body>
   <table>
@@ -12,8 +17,8 @@
     </tr>
     {{#each Items}}
       <tr>
-        <td>{{title.S}}</td>
-        <td>{{objectId.S}}</td>
+        <td>{{#if objectId}}{{objectId.S}}{{else}}<span class="red">missing</span>{{/if}}</td>
+        <td>{{#if title}}{{title.S}}{{else}}<span class="red">missing</span>{{/if}}</td>
         <td>
           {{#if active.BOOL}}
           Active
@@ -29,6 +34,9 @@
               Make {{#if active.BOOL}}Inactive{{else}}Active{{/if}}
             </button>
           </form>
+        </td>
+        <td>
+          <a href="https://s3.console.aws.amazon.com/s3/buckets/{{../bucket}}/{{id.S}}/">Go to files</a>
         </td>
       </tr>
     {{/each}}
