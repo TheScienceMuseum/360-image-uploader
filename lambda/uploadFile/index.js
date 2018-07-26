@@ -9,7 +9,7 @@ module.exports.handler = function(event, context, callback) {
   var parts = multipart.Parse(bodyBuffer, boundary);
 
   return s3.putObject({
-    Bucket: '360-lm-test',
+    Bucket: process.env.S3_BUCKET,
     Key: 'tmp.zip',
     Body: parts[0].data,
     ACL: 'public-read'

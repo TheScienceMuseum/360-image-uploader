@@ -1,14 +1,18 @@
 <html>
 <head>
   <title>360 Image Uploader</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
   <h1>360 Image Uploader</h1>
   <form method="POST"
-    action="/upload"
+    action="{{url}}"
     enctype="multipart/form-data">
 
-    <input type="file" name="your-files" multiple/>
+    {{#each fields}}
+      <input type="hidden" name="{{@key}}" value="{{this}}" />
+    {{/each}}
+    <input type="file" name="file"/>
     <button type="submit">Submit</button>
   </form>
 </body>
