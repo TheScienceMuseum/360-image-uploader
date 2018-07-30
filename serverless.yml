@@ -5,17 +5,16 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'eu-west-1'}
   runtime: nodejs8.10
-   resourcePolicy:
-     - Effect: Allow
-       Principal: "*"
-       Action: execute-api:Invoke
-       Resource:
-         - execute-api:/*/*/*
-       Condition:
-         IpAddress:
-           aws:SourceIp:
-             # SK
-             - 167.98.25.201
+  resourcePolicy:
+   - Effect: Allow
+     Principal: "*"
+     Action: execute-api:Invoke
+     Resource:
+       - execute-api:/*/*/*
+     Condition:
+       IpAddress:
+         aws:SourceIp:
+           - 167.98.25.201
   iamRoleStatements:
     - Effect: Allow
       Action:
