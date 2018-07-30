@@ -1,0 +1,102 @@
+service: smgco-360-uploader
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-west-1'}
+  runtime: nodejs8.10
+  resourcePolicy:
+   - Effect: Allow
+     Principal: "*"
+     Action: execute-api:Invoke
+     Resource:
+       - execute-api:/*/*/*
+     Condition:
+       IpAddress:
+         aws:SourceIp:
+           - 167.98.25.201
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:Scan
+      Resource:
+        - { "Fn::GetAtt": ["360ImagesDynamoDBTable", "Arn" ] }
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+        - s3:PutObject
+        - s3:PutObjectAcl
+        - s3:PutObjectTagging
+        - s3:PutObjectVersionAcl
+        - s3:PutObjectVersionTagging
+        - s3:DeleteObject
+      Resource:
+        - "arn:aws:s3:::${opt:bucket, 'smgco-360'}/*"
+  environment:
+    TABLE_NAME: { "Ref": "360ImagesDynamoDBTable" }
+    S3_BUCKET: ${opt:bucket, 'smgco-360'}
+    REGION: ${self:provider.region}
+    STAGE: ${self:provider.stage}
+  stackTags:
+    System: CollectionsOnline
+
+functions:
+  listObjects:
+    handler: lambda/listObjects/index.handler
+    timeout: 90
+    events:
+      - http:
+          path: list-objects
+          method: get
+          cors: true
+
+  processFile:
+    handler: lambda/processFile/index.handler
+    timeout: 90
+    events:
+      - s3:
+          bucket: ${opt:bucket, 'smgco-360'}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .ggpkg
+
+  toggleStatus:
+    handler: lambda/toggleStatus/index.handler
+    timeout: 90
+    events:
+      - http:
+          path: toggle-status
+          method: post
+          cors: true
+
+  uploadForm:
+    handler: lambda/uploadForm/index.handler
+    timeout: 90
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    360ImagesDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+plugins:
+  - serverless-offline

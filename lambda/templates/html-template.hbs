@@ -1,0 +1,89 @@
+<html>
+<head>
+  <title>360 Image Objects</title>
+  <style>
+    .red {
+      color: red;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    .container {
+      width: 100%;
+      text-align: center;
+    }
+    .uploaded-notice {
+      border: solid 1px #00BFFF;
+      border-radius: 3px;
+      background-color: #E0FFFF;
+      padding: 0.75em;
+      display: inline-block;
+      margin: auto;
+    }
+    .table-360 {
+      width: 90%;
+      margin: auto;
+      margin-top: 1em;
+      border: solid 1px #DFDFDF;
+      border-collapse: collapse;
+      border-spacing: 0;
+      border-radius: 2px;
+    }
+    td {
+      text-align: center;
+    }
+    th {
+      padding: 0.75em;
+      background: #DFDFDF;
+    }
+    tr:nth-child(even) td { background: #F1F1F1; }
+    tr:nth-child(odd) td { background: #FEFEFE; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>360 Images</h2>
+    {{#if uploaded}}
+        <div class="uploaded-notice">
+          <span>
+            If you don't see the item you've just uploaded, try refreshing your browser
+          </span>
+        </div>
+    {{/if}}
+  </div>
+  <table class="table-360">
+    <tr class="table-header">
+      <th>Name</th>
+      <th>ID</th>
+      <th>Status</th>
+      <th></th>
+      <th></th>
+    </tr>
+    {{#each Items}}
+      <tr>
+        <td>{{#if objectId}}{{objectId.S}}{{else}}<span class="red">missing</span>{{/if}}</td>
+        <td>{{#if title}}{{title.S}}{{else}}<span class="red">missing</span>{{/if}}</td>
+        <td>
+          {{#if active.BOOL}}
+          Active
+          {{else}}
+          Inactive
+          {{/if}}
+        </td>
+        <td>
+          <form method="POST" action="/{{../stage}}/toggle-status" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="active" value="{{#if active.BOOL}}false{{else}}true{{/if}}"/>
+            <input type="hidden" name="id" value="{{id.S}}"/>
+            <button type="submit">
+              Make {{#if active.BOOL}}Inactive{{else}}Active{{/if}}
+            </button>
+          </form>
+        </td>
+        <td>
+          <a href="https://s3.console.aws.amazon.com/s3/buckets/{{../bucket}}/{{id.S}}/">Go to files</a>
+        </td>
+      </tr>
+    {{/each}}
+</table>
+</body>
+</html>
