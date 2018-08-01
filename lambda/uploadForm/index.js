@@ -11,7 +11,7 @@ module.exports.handler = (event, context, callback) => {
     Bucket: process.env.S3_BUCKET,
     Fields: {
       acl: 'public-read',
-      success_action_redirect: `https://${event.headers.Host}/${process.env.STAGE}/list-objects`
+      success_action_redirect: `https://${event.headers.Host}/${process.env.STAGE}/list-objects?uploaded=true`
     },
     Conditions: [
       ['starts-with', '$key', '']
