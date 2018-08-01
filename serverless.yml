@@ -22,6 +22,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:Scan
+        - dynamodb:DeleteItem
       Resource:
         - { "Fn::GetAtt": ["360ImagesDynamoDBTable", "Arn" ] }
     - Effect: Allow
@@ -73,6 +74,15 @@ functions:
       - http:
           path: /
           method: get
+          cors: true
+
+  deleteObject:
+    handler: lambda/deleteObject/index.handler
+    timeout: 90
+    events:
+      - http:
+          path: /delete-object
+          method: post
           cors: true
 
 resources:

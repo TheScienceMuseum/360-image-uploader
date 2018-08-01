@@ -79,7 +79,7 @@
       <a href="/{{stage}}/">Upload File</a>
     </div>
     <div class="refresh-container">
-      <form>
+      <form method="GET" action="/{{stage}}/list-objects">
         <button type="submit">Refresh</button>
       </form>
     </div>
@@ -91,6 +91,7 @@
       <th></th>
       <th>Last Modified</th>
       <th>Status</th>
+      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -122,6 +123,14 @@
         </td>
         <td>
           <a href="https://s3.console.aws.amazon.com/s3/buckets/{{../bucket}}/{{id.S}}/">Go to files</a>
+        </td>
+        <td>
+          <form method="POST" action="/{{../stage}}/delete-object" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="id" value="{{id.S}}"/>
+            <button type="submit">
+              Delete Item
+            </button>
+          </form>
         </td>
       </tr>
     {{/each}}
