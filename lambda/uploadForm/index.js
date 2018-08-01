@@ -14,8 +14,8 @@ module.exports.handler = (event, context, callback) => {
       success_action_redirect: `https://${event.headers.Host}/${process.env.STAGE}/list-objects`
     },
     Conditions: [
-    ['starts-with', '$key', '']
-  ]
+      ['starts-with', '$key', '']
+    ]
   };
 
   s3.createPresignedPost(params, (error, data) => {
