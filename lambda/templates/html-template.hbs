@@ -55,6 +55,7 @@
     <tr class="table-header">
       <th>ID</th>
       <th>Name</th>
+      <th>Last Modified</th>
       <th>Status</th>
       <th></th>
       <th></th>
@@ -63,6 +64,7 @@
       <tr>
         <td>{{#if objectId}}{{objectId.S}}{{else}}<span class="red">missing</span>{{/if}}</td>
         <td>{{#if title}}{{title.S}}{{else}}<span class="red">missing</span>{{/if}}</td>
+        <td>{{#if modificationDate}}{{modificationDate.S}}{{/if}}</td>
         <td>
           {{#if active.BOOL}}
           Active

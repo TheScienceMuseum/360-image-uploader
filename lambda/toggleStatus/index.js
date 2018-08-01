@@ -8,7 +8,7 @@ module.exports.handler = function (event, context, callback) {
 
   return dynamoDB.updateItem({
     TableName: process.env.TABLE_NAME,
-    UpdateExpression: 'SET active = :a, modification_date = :m',
+    UpdateExpression: 'SET active = :a, modificationDate = :m',
     ExpressionAttributeValues: {
       ':a': {
         BOOL: params.active === 'true'
