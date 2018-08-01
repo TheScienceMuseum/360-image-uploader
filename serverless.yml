@@ -56,12 +56,6 @@ functions:
   processFile:
     handler: lambda/processFile/index.handler
     timeout: 90
-    events:
-      - s3:
-          bucket: ${opt:bucket, 'smgco-360'}
-          event: s3:ObjectCreated:*
-          rules:
-            - suffix: .ggpkg
 
   toggleStatus:
     handler: lambda/toggleStatus/index.handler
@@ -97,6 +91,49 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    S3Bucket360:
+      Type: 'AWS::S3::Bucket'
+      Properties:
+        BucketName: ${opt:bucket, 'smgco-360'}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - GET
+              AllowedOrigins:
+                - "*"
+        NotificationConfiguration:
+          LambdaConfigurations:
+            - Event: "s3:ObjectCreated:*"
+              Function:
+                "Fn::GetAtt": [ ProcessFileLambdaFunction, Arn ]
+    ProcessFileLambdaPermissionS3Bucket360:
+      DependsOn:
+        - ProcessFileLambdaFunction
+      Type: AWS::Lambda::Permission
+      Properties:
+        FunctionName:
+          "Fn::GetAtt": [ ProcessFileLambdaFunction, Arn ]
+        Action: "lambda:InvokeFunction"
+        Principal: "s3.amazonaws.com"
+        SourceArn: "arn:aws:s3:::${opt:bucket, 'smgco-360'}"
+    360BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: S3Bucket360
+        PolicyDocument:
+          Statement:
+            Action: "s3:GetObject"
+            Effect: "Allow"
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:s3:::"
+                  - Ref: S3Bucket360
+                  - "/*"
+            Principal: "*"
 
 plugins:
   - serverless-offline
