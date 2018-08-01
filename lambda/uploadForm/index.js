@@ -23,7 +23,8 @@ module.exports.handler = (event, context, callback) => {
       callback(error);
     } else {
       data.fields.key = '${filename}';
-      body = handlebars.compile(fs.readFileSync(__dirname + '/../templates/upload-form.hbs', 'utf8'))(data);
+      const templateData = Object.assign({}, data, {stage: process.env.STAGE});
+      body = handlebars.compile(fs.readFileSync(__dirname + '/../templates/upload-form.hbs', 'utf8'))(templateData);
       const response = {
         statusCode: 200,
         headers: {
