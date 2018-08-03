@@ -15,6 +15,7 @@ module.exports = (event, context, callback) => {
     var templateData = Object.assign({}, data, {
       bucket: process.env.S3_BUCKET,
       stage: process.env.STAGE,
+      region: process.env.REGION,
       uploaded: uploaded
     });
 

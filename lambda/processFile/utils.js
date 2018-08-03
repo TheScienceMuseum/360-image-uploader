@@ -173,7 +173,7 @@ function saveToDB (item, callback) {
     'active': {
       BOOL: (item.objectId && item.title) ? true : false
     },
-    'modification_date': {
+    'modificationDate': {
       S: (new Date(Date.now())).toISOString()
     }
   };
