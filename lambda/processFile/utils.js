@@ -58,8 +58,8 @@ const decompress = function (/* String */command, /* Function */ cb) {
           Key: command.file
         }, function (err, data) {
           if (err) {
-            if (cb) cb(new Error('File Error: ' + err.message));
-            else console.error('File Error: ' + err.message);
+            if (cb) cb(new Error(console.error('Zip file (' + command.file + ') NOT found in S3 bucket (' + command.bucket + ')!' + 'File Error: ' + err.message)));
+            else console.error('Zip file (' + command.file + ') NOT found in S3 bucket (' + command.bucket + ')!' + 'File Error: ' + err.message);
           } else {
             if (command.verbose) console.log("Zip file '" + command.file + "' found in S3 bucket!");
 
@@ -171,7 +171,7 @@ function saveToDB (item, callback) {
       S: id
     },
     'active': {
-      BOOL: (item.objectId && item.title) ? true : false
+      BOOL: !!((item.objectId && item.title))
     },
     'modificationDate': {
       S: (new Date(Date.now())).toISOString()
@@ -179,11 +179,11 @@ function saveToDB (item, callback) {
   };
 
   if (item.objectId) {
-    params.objectId = {S: item.objectId}
+    params.objectId = {S: item.objectId};
   }
 
   if (item.title) {
-    params.title = {S: item.title}
+    params.title = {S: item.title};
   }
 
   return dynamoDB.putItem({
