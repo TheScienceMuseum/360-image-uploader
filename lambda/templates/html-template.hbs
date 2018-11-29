@@ -97,7 +97,7 @@
     </tr>
     {{#each Items}}
       <tr>
-        <td>{{#if objectId}}{{objectId.S}}{{else}}<span class="red">missing</span>{{/if}}</td>
+        <td>{{#if objectId}}<a href="https://collection.sciencemuseum.org.uk/oid/{{objectId.S}}?redirect=true">{{objectId.S}}{{else}}</a><span class="red">missing</span>{{/if}}</td>
         <td>{{#if title}}{{title.S}}{{else}}<span class="red">missing</span>{{/if}}</td>
         <td>
           <div class="thumbnail-container">
