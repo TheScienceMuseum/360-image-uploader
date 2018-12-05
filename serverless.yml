@@ -16,6 +16,7 @@ provider:
          aws:SourceIp:
           - 167.98.25.201
           - 54.154.192.59
+          - 34.253.155.4
   iamRoleStatements:
     - Effect: Allow
       Action:
