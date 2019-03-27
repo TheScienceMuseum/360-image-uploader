@@ -97,7 +97,11 @@ const decompress = function (/* String */command, /* Function */ cb) {
               }
 
               zipEntries.forEach(function (zipEntry) {
-                s3.upload({ Bucket: command.bucket, Key: object.id + '/' + zipEntry.entryName, Body: zipEntry.getData() }, function (err, data) {
+                let fileData = { Bucket: command.bucket, Key: object.id + '/' + zipEntry.entryName, Body: zipEntry.getData() }
+
+                if (zipEntry.entryName === "object.xml") { fileData.ContentType = "text/xml" }
+
+                s3.upload(fileData, function (err, data) {
                   counter++;
 
                   if (err) {
