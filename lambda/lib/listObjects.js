@@ -18,7 +18,11 @@ module.exports = (event, context, callback) => {
       region: process.env.REGION,
       uploaded: uploaded
     });
-
+    templateData.Items.sort(function (a, b) {
+      a = new Date(a.modificationDate.S);
+      b = new Date(b.modificationDate.S);
+      return a > b ? -1 : a < b ? 1 : 0;
+    });
     const body = handlebars.compile(
       fs.readFileSync(__dirname + '/../templates/' + template, 'utf8')
     )(templateData);
