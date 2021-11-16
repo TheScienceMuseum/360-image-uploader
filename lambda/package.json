@@ -18,7 +18,7 @@
   "homepage": "https://github.com/TheScienceMuseum/360-image-uploader#readme",
   "dependencies": {
     "adm-zip": "^0.4.11",
-    "aws-sdk": "^2.275.1",
+    "aws-sdk": "^2.814.0",
     "date-time": "^2.1.0",
     "md5": "^2.2.1",
     "mime-types": "^2.1.18",
