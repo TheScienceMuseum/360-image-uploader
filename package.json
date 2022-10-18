@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/TheScienceMuseum/360-image-uploader#readme",
   "dependencies": {
-    "serverless": "^1.34.1"
+    "serverless": "^3.23.0"
   },
   "devDependencies": {
-    "serverless-offline": "^3.31.3"
+    "serverless-offline": "^11.1.3"
   }
 }

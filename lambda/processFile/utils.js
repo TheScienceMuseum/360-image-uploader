@@ -97,9 +97,9 @@ const decompress = function (/* String */command, /* Function */ cb) {
               }
 
               zipEntries.forEach(function (zipEntry) {
-                let fileData = { Bucket: command.bucket, Key: object.id + '/' + zipEntry.entryName, Body: zipEntry.getData() }
+                let fileData = { Bucket: command.bucket, Key: object.id + '/' + zipEntry.entryName, Body: zipEntry.getData() };
 
-                if (zipEntry.entryName === "object.xml") { fileData.ContentType = "text/xml" }
+                if (zipEntry.entryName === 'object.xml') { fileData.ContentType = 'text/xml'; }
 
                 s3.upload(fileData, function (err, data) {
                   counter++;
@@ -164,7 +164,8 @@ function validateObject (files, callback) {
     }
     const data = result.vrobject.userdata || [{'$': {}}];
 
-    return saveToDB({title: data[0]['$'].title, objectId: data[0]['$'].info}, callback);
+    var id = data[0]['$'].info || data[0]['$'].source;
+    return saveToDB({title: data[0]['$'].title, objectId: id}, callback);
   });
 }
 

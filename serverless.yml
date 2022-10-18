@@ -4,7 +4,7 @@ provider:
   name: aws
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'eu-west-1'}
-  runtime: nodejs8.10
+  runtime: nodejs18.x
   resourcePolicy:
    - Effect: Allow
      Principal: "*"
@@ -17,6 +17,7 @@ provider:
           - 167.98.25.201
           - 54.154.192.59
           - 34.253.155.4
+          - 87.81.144.34
   iamRoleStatements:
     - Effect: Allow
       Action:
